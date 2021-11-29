@@ -13,6 +13,8 @@ const plugins = [
   new StylelintPlugin(),
   new ESLintWebpackPlugin({
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
+    failOnError: isProd,
+    quiet: isProd,
   }),
   new MiniCssExtractPlugin(),
   new HtmlWebpackPlugin({
