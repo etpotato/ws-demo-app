@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const plugins = [];
 
 if (process.env.SERVE) plugins.push('react-refresh/babel');

@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -55,9 +57,10 @@ module.exports = {
       {
         test: /\.[jt]sx?$/i,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-        },
+        use: [
+          'babel-loader',
+          'ts-loader',
+        ],
       },
       {
         test: /\.(png|svg|jpe?g|gif|webp)$/i,
