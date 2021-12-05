@@ -1,5 +1,5 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import Chart from './Chart/Chart';
 
 import '../styles/index.scss';
 
@@ -27,6 +27,16 @@ const CURRENCY: Currency = {
   LUNAUSD: 'Terra',
   SOLUSD: 'Solana',
 };
+
+const chartData = {
+  labels: ['label1', 'label2', 'label3', 'label4'],
+  datasets: [
+    {
+      label: 'data1',
+      data: [1, 2, 3, 4, 5, 6, 7],
+    },
+  ],
+}
 
 export default function App() {
   const [trades, setTrades] = useState(CURRENCY);
@@ -72,6 +82,7 @@ export default function App() {
           </li>
         ))}
       </ul>
+      <Chart chartData={chartData}/>
     </>
   );
 }
