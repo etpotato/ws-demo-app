@@ -1,22 +1,33 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto/auto.esm';
+import { ChartConfiguration, ChartData } from 'chart.js/types/index.esm';
+import { tradesItem } from '../App';
 
-type ChartData = {
-  labels: string[],
-  datasets: {
-    label: string,
-    data: number[],
-  }[],
+interface Trades {
+  timestamps: string[],
+  currencies: tradesItem,
+}
+
+interface Props {
+  trades: Trades,
+}
+
+const getChartData = (trades: Trades): ChartData => {
+  const datasets = Object.keys(trades.currencies)
+    .map((item: string) => ({
+      label: trades.currencies[item].name,
+      data: trades.currencies[item].prices,
+    }));
+  return {
+    labels: [...trades.timestamps],
+    datasets,
+  };
 };
 
-type ChartProps = {
-  chartData: ChartData,
-};
-
-const getConfig = (chartData: unknown) => {
+const getConfig = (trades: Trades): ChartConfiguration => {
   return {
     type: 'line',
-    data: chartData,
+    data: getChartData(trades),
     options: {
       responsive: true,
       plugins: {
@@ -47,18 +58,24 @@ const getConfig = (chartData: unknown) => {
   };
 };
 
-export default function ChartComponent({ chartData } : ChartProps): JSX.Element {
+
+export default function ChartComponent({ trades }: Props): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const chartRef = useRef<unknown>(null);
+  const chartRef = useRef<any>(null);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
     if (ctx) {
-      console.log(getConfig(chartData));
-      // @ts-ignore
-      chartRef.current = new Chart(ctx, getConfig(chartData));
+      chartRef.current = new Chart(ctx, getConfig(trades));
     }
   },[]);
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+    chartRef.current.data = getChartData(trades);
+    chartRef.current?.update();
+  }, [trades]);
+
   return (
     <div className="chart">
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
