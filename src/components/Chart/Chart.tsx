@@ -1,33 +1,24 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto/auto.esm';
 import { ChartConfiguration, ChartData } from 'chart.js/types/index.esm';
-import { tradesItem } from '../App';
-
-interface Trades {
-  timestamps: string[],
-  currencies: tradesItem,
-}
+import { TradesItem } from '../App';
 
 interface Props {
-  trades: Trades,
+  tradesItem: TradesItem,
 }
 
-const getChartData = (trades: Trades): ChartData => {
-  const datasets = Object.keys(trades.currencies)
-    .map((item: string) => ({
-      label: trades.currencies[item].name,
-      data: trades.currencies[item].prices,
-    }));
-  return {
-    labels: [...trades.timestamps],
-    datasets,
-  };
-};
+const getChartData = (tradesItem: TradesItem): ChartData => ({
+  labels: tradesItem.labels,
+  datasets: [{
+    label: tradesItem.name,
+    data: tradesItem.data,
+  }],
+});
 
-const getConfig = (trades: Trades): ChartConfiguration => {
+const getConfig = (tradesItem: TradesItem): ChartConfiguration => {
   return {
     type: 'line',
-    data: getChartData(trades),
+    data: getChartData(tradesItem),
     options: {
       responsive: true,
       plugins: {
@@ -59,25 +50,26 @@ const getConfig = (trades: Trades): ChartConfiguration => {
 };
 
 
-export default function ChartComponent({ trades }: Props): JSX.Element {
+export default function ChartComponent({ tradesItem }: Props): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<any>(null);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
     if (ctx) {
-      chartRef.current = new Chart(ctx, getConfig(trades));
+      chartRef.current = new Chart(ctx, getConfig(tradesItem));
     }
   },[]);
 
   useEffect(() => {
     if (!chartRef.current) return;
-    chartRef.current.data = getChartData(trades);
+    chartRef.current.data = getChartData(tradesItem);
     chartRef.current?.update();
-  }, [trades]);
+  }, [tradesItem]);
 
   return (
     <div className="chart">
+      <h2>{tradesItem.name}</h2>
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
     </div>
   );
