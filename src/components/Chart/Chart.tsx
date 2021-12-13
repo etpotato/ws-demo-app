@@ -21,12 +21,6 @@ const getConfig = (tradesItem: TradesItem): ChartConfiguration => {
     data: getChartData(tradesItem),
     options: {
       responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: 'Chart.js Line Chart - Cubic interpolation mode'
-        },
-      },
       interaction: {
         intersect: false,
       },
@@ -69,7 +63,7 @@ export default function ChartComponent({ tradesItem }: Props): JSX.Element {
 
   return (
     <div className="chart">
-      <h2>{tradesItem.name}</h2>
+      <h2>{tradesItem.name} - USD</h2>
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
     </div>
   );

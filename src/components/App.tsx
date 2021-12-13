@@ -38,21 +38,21 @@ interface DataItem {
 }
 
 export default function App() {
-  const [trades, setTrades] = useState({
+  const [trades, setTrades] = useState<Trades>({
     XBTUSD: {
-      name: 'Bitcoin',
-      labels: [''],
-      data: [0],
+      name: CURRENCY_NAME.XBTUSD,
+      labels: [],
+      data: [],
     },
     ETHUSD: {
-      name: 'Ehterium',
-      labels: [''],
-      data: [0],
+      name: CURRENCY_NAME.ETHUSD,
+      labels: [],
+      data: [],
     },
     XRPUSD: {
-      name: 'Ripple',
-      labels: [''],
-      data: [0],
+      name: CURRENCY_NAME.XRPUSD,
+      labels: [],
+      data: [],
     },
   });
 
@@ -61,10 +61,7 @@ export default function App() {
     socket.onopen = () => {
       socket.send(JSON.stringify({
         op: 'subscribe',
-        // args: 'trade:XBTUSD',
-        args: ['trade:XBTUSD', 'trade:ETHUSD', 'trade:XRPUSD'],
-        // args: Object.keys(CURRENCY_NAME).map((item) => `trade:${item}`),
-        // args: Object.keys(CURRENCY).map((item) => `orderBookL2_25:${item}`),
+        args: Object.keys(CURRENCY_NAME).map((currency) => `trade:${currency}`),
       }));
     };
 
@@ -73,14 +70,13 @@ export default function App() {
       if (!data?.data?.length) return;
       // newData - array of objects
       const newData = data.data;
-      setTrades((state: any) => {
+      setTrades((state: Trades) => {
         newData.forEach((item: DataItem) => {
           state[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
           state[item.symbol].data.push(item.price);
         });
         return state;
       });
-      console.log('message');
     };
 
     socket.onerror = (evt) => {
@@ -94,14 +90,12 @@ export default function App() {
     return () => socket.close();
   }, []);
 
-  // useEffect(() => console.log(trades), [trades]);
-
   return (
     <>
       <h1 className="animate-font">Hello from react</h1>
-      <Chart key="XBTUSD" tradesItem={trades.XBTUSD}/>
-      <Chart key="ETHUSD" tradesItem={trades.ETHUSD}/>
-      <Chart key="XRPUSD" tradesItem={trades.XRPUSD}/>
+      { Object.keys(CURRENCY_NAME).map((currency) =>
+        <Chart key={currency} tradesItem={trades[currency]}/>)
+      }
     </>
   );
 }
