@@ -59,7 +59,7 @@ export default function ChartComponent({ tradesItem }: Props): JSX.Element {
     if (!chartRef.current) return;
     chartRef.current.data = getChartData(tradesItem);
     chartRef.current?.update();
-  }, [tradesItem]);
+  }, [tradesItem.data.length]);
 
   return (
     <div className="chart">

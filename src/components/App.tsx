@@ -69,12 +69,12 @@ export default function App() {
       // newData - array of objects
       const newData = data.data;
       setTrades((state: Trades) => {
+        const newState = {...state};
         newData.forEach((item: DataItem) => {
-          state[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
-          state[item.symbol].data.push(item.price);
+          newState[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
+          newState[item.symbol].data.push(item.price);
         });
-        console.log(state);
-        return state;
+        return newState;
       });
     };
 
