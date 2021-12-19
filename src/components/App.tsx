@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chart from './Chart/Chart';
 
-import { round } from '../helpers';
-
 import '../styles/index.scss';
 
 interface CurrencyName {
@@ -75,6 +73,7 @@ export default function App() {
           state[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
           state[item.symbol].data.push(item.price);
         });
+        console.log(state);
         return state;
       });
     };
@@ -91,11 +90,11 @@ export default function App() {
   }, []);
 
   return (
-    <>
+    <div className="container">
       <h1 className="animate-font">Hello from react</h1>
       { Object.keys(CURRENCY_NAME).map((currency) =>
         <Chart key={currency} tradesItem={trades[currency]}/>)
       }
-    </>
+    </div>
   );
 }
