@@ -3,10 +3,6 @@ import Chart from 'chart.js/auto/auto.esm';
 import { ChartConfiguration, ChartData } from 'chart.js/types/index.esm';
 import { TradesItem } from '../App';
 
-interface Props {
-  tradesItem: TradesItem,
-}
-
 const getChartData = (tradesItem: TradesItem): ChartData => ({
   labels: tradesItem.labels,
   datasets: [{
@@ -43,28 +39,39 @@ const getConfig = (tradesItem: TradesItem): ChartConfiguration => {
   };
 };
 
-
-export default function ChartComponent({ tradesItem }: Props): JSX.Element {
+function ChartComponent({ name, labels, data }: TradesItem): JSX.Element {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const chartRef = useRef<any>(null);
 
   useEffect(() => {
     const ctx = canvasRef.current?.getContext('2d');
     if (ctx) {
-      chartRef.current = new Chart(ctx, getConfig(tradesItem));
+      chartRef.current = new Chart(ctx, getConfig({ name, labels, data }));
     }
   },[]);
 
   useEffect(() => {
     if (!chartRef.current) return;
-    chartRef.current.data = getChartData(tradesItem);
-    chartRef.current?.update();
-  }, [tradesItem.data.length]);
+    chartRef.current.data = getChartData({ name, labels, data });
+    chartRef.current.update();
+  });
 
   return (
-    <div className="chart">
-      <h2>{tradesItem.name} - USD</h2>
+    <div className="box rounded">
+      <h2>{name} - USD</h2>
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
     </div>
   );
 }
+
+const isEqual = (prevProps: TradesItem, nextProps: TradesItem) => {
+  if (prevProps.labels.length !== nextProps.labels.length) return false;
+
+  for (let i = 0; i <= prevProps.labels.length; i++) {
+    if (prevProps.labels[i] !== nextProps.labels[i]) return false;
+  }
+
+  return true;
+};
+
+export default React.memo(ChartComponent, isEqual);

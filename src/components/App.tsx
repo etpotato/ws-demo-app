@@ -35,24 +35,21 @@ interface DataItem {
   timestamp: string,
 }
 
+const getState = (prevState?: Trades) => {
+  const currencies = Object.keys(CURRENCY_NAME);
+  const state: Trades = {};
+  for (const currency of currencies) {
+    state[currency] = {
+      name: CURRENCY_NAME[currency],
+      labels: prevState ? [...prevState[currency].labels] : [],
+      data: prevState ? [...prevState[currency].data] : [],
+    }
+  }
+  return state;
+};
+
 export default function App() {
-  const [trades, setTrades] = useState<Trades>({
-    XBTUSD: {
-      name: CURRENCY_NAME.XBTUSD,
-      labels: [],
-      data: [],
-    },
-    ETHUSD: {
-      name: CURRENCY_NAME.ETHUSD,
-      labels: [],
-      data: [],
-    },
-    XRPUSD: {
-      name: CURRENCY_NAME.XRPUSD,
-      labels: [],
-      data: [],
-    },
-  });
+  const [trades, setTrades] = useState<Trades>(getState());
 
   useEffect(() => {
     const socket = new WebSocket(SOCKET_URL);
@@ -68,8 +65,8 @@ export default function App() {
       if (!data?.data?.length) return;
       // newData - array of objects
       const newData = data.data;
-      setTrades((state: Trades) => {
-        const newState = {...state};
+      setTrades((state) => {
+        const newState = getState(state);
         newData.forEach((item: DataItem) => {
           newState[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
           newState[item.symbol].data.push(item.price);
@@ -91,9 +88,9 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1 className="animate-font">Hello from react</h1>
+      <h1 className="box rounded">Hello from react</h1>
       { Object.keys(CURRENCY_NAME).map((currency) =>
-        <Chart key={currency} tradesItem={trades[currency]}/>)
+        <Chart key={currency} name={trades[currency].name} labels={trades[currency].labels} data={trades[currency].data}/>)
       }
     </div>
   );
