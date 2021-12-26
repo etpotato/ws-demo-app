@@ -68,7 +68,7 @@ export default function App() {
       setTrades((state) => {
         const newState = getState(state);
         newData.forEach((item: DataItem) => {
-          newState[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString());
+          newState[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString('it-IT'));
           newState[item.symbol].data.push(item.price);
         });
         return newState;
@@ -88,7 +88,7 @@ export default function App() {
 
   return (
     <div className="container">
-      <h1 className="box rounded">Hello from react</h1>
+      <h1 className="box p-3 mb-3 rounded">Cryptocurrency trades</h1>
       { Object.keys(CURRENCY_NAME).map((currency) =>
         <Chart key={currency} name={trades[currency].name} labels={trades[currency].labels} data={trades[currency].data}/>)
       }
