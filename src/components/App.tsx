@@ -7,6 +7,8 @@ interface CurrencyName {
   [c: string] : string,
 }
 
+const TRADES_LIMIT = 100;
+
 const SOCKET_URL = 'wss://ws.bitmex.com/realtime';
 
 const CURRENCY_NAME: CurrencyName = {
@@ -68,9 +70,23 @@ export default function App() {
       setTrades((state) => {
         const newState = getState(state);
         newData.forEach((item: DataItem) => {
-          newState[item.symbol].labels.push(new Date(item.timestamp).toLocaleTimeString('it-IT'));
-          newState[item.symbol].data.push(item.price);
+          // if (next price === prev price) just change last date
+          const prevLabels = newState[item.symbol].labels;
+          const prevData = newState[item.symbol].data;
+          if (prevData[prevData.length - 1] === item.price) {
+            prevLabels[prevLabels.length - 1] = new Date(item.timestamp).toLocaleTimeString('it-IT');
+          } else {
+            prevLabels.push(new Date(item.timestamp).toLocaleTimeString('it-IT'));
+            prevData.push(item.price);
+          }
         });
+        for (const currency in newState) {
+          const length =  newState[currency].labels.length;
+          if (length > TRADES_LIMIT) {
+            newState[currency].labels.splice(0, length - TRADES_LIMIT);
+            newState[currency].data.splice(0, length - TRADES_LIMIT);
+          }
+        }
         return newState;
       });
     };
