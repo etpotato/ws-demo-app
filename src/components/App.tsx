@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Chart from './Chart/Chart';
 
-import '../styles/index.scss';
-
 interface CurrencyName {
   [c: string] : string,
 }

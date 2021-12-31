@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const plugins = [];
 
-if (process.env.SERVE) plugins.push('react-refresh/babel');
+if (process.env.NODE_ENV === 'serve') plugins.push(['react-refresh/babel', {skipEnvCheck: true}]);
 
 module.exports = {
   presets: [

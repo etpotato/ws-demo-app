@@ -9,6 +9,7 @@ const StylelintPlugin = require('stylelint-webpack-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
 
 const isProd = process.env.NODE_ENV === 'production';
+const isServe = process.env.NODE_ENV === 'serve';
 
 const plugins = [
   new CleanWebpackPlugin(),
@@ -16,17 +17,17 @@ const plugins = [
   new ESLintWebpackPlugin({
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
     failOnError: isProd,
-    quiet: !isProd,
+    quiet: isServe,
   }),
   new MiniCssExtractPlugin({
-    filename: '[name].[contenthash].css',
+    filename: isServe ? '[name].css' : '[name].[contenthash].css',
   }),
   new HtmlWebpackPlugin({
     template: './src/index.html',
   }),
 ];
 
-if (process.env.SERVE) plugins.push(new ReactRefreshWebpackPlugin());
+if (isServe) plugins.push(new ReactRefreshWebpackPlugin());
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
@@ -95,5 +96,5 @@ module.exports = {
       },
     },
   },
-  stats: isProd ? 'normal' : 'minimal',
+  stats: isServe ? 'minimal' : 'normal',
 };
