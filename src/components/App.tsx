@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
+
 import Chart from './Chart/Chart';
+import Controls from './Controls/Controls';
 
 interface CurrencyName {
   [c: string] : string,
@@ -101,11 +103,22 @@ export default function App() {
   }, []);
 
   return (
-    <div className="container">
+    <main className="container py-3">
       <h1 className="box p-3 mb-3 rounded">Cryptocurrency trades</h1>
-      { Object.keys(CURRENCY_NAME).map((currency) =>
-        <Chart key={currency} name={trades[currency].name} labels={trades[currency].labels} data={trades[currency].data}/>)
-      }
-    </div>
+        <div className="row g-3">
+          <section className="col col-lg-3">
+            <div className="position-sticky top-1 box rounded p-3">
+              <h2 className="pb-3">Currencies list</h2>
+                <Controls currencies={Object.keys(trades).map((symbol) => ({name: trades[symbol].name, symbol: symbol}))}/>
+            </div>
+          </section>
+          <section className="col col-lg-9">
+            <h2 className="visually-hidden">Charts</h2>
+            { Object.keys(trades).map((symbol) =>
+              <Chart key={symbol} name={trades[symbol].name} labels={trades[symbol].labels} data={trades[symbol].data}/>)
+            }
+          </section>
+        </div>
+    </main>
   );
 }
