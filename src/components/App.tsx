@@ -127,8 +127,10 @@ export default function App() {
             </section>
           </div>
       </main>
-      <footer className="mb-3 box" style={{height: '20px'}}>
-        <div className="container"></div>
+      <footer className="box py-2">
+        <div className="container text-center">
+          <a className="text-shadow-secondary" href="mailto:mareev.pv@gmail.com">mareev.pv@gmail.com</a>
+        </div>
       </footer>
     </>
   );
