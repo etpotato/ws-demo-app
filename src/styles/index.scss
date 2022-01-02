@@ -20,15 +20,24 @@ body {
   }
 }
 
-h1 {
+.text-shadow-secondary {
   text-shadow: 1px 1px 4px $secondary;
 }
 
-h2 {
+.text-shadow-primary {
   text-shadow: 1px 1px 3px $primary;
 }
 
 .box {
   background-color: rgb(0 0 0 / 40%);
   backdrop-filter: blur(5px);
+}
+
+.hide-crollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }

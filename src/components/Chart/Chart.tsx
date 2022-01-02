@@ -112,7 +112,7 @@ function ChartComponent({ name, labels, data }: TradesItem): JSX.Element {
 
   return (
     <section className="box rounded p-3 mb-3">
-      <h2 className="pb-3">{name} - USD</h2>
+      <h2 className="pb-3 text-shadow-primary">{name} - USD</h2>
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
     </section>
   );

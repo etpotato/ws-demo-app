@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import TopList from './TopList/TopList';
 import Chart from './Chart/Chart';
 import Controls from './Controls/Controls';
 
@@ -103,22 +104,32 @@ export default function App() {
   }, []);
 
   return (
-    <main className="container py-3">
-      <h1 className="box p-3 mb-3 rounded">Cryptocurrency trades</h1>
-        <div className="row g-3">
-          <section className="col col-lg-3">
-            <div className="position-sticky top-1 box rounded p-3">
-              <h2 className="pb-3">Currencies list</h2>
-                <Controls currencies={Object.keys(trades).map((symbol) => ({name: trades[symbol].name, symbol: symbol}))}/>
-            </div>
-          </section>
-          <section className="col col-lg-9">
-            <h2 className="visually-hidden">Charts</h2>
-            { Object.keys(trades).map((symbol) =>
-              <Chart key={symbol} name={trades[symbol].name} labels={trades[symbol].labels} data={trades[symbol].data}/>)
-            }
-          </section>
+    <>
+      <header className="mb-3 py-1 box">
+        <div className="container">
+          <TopList currencies={Object.keys(trades).map((symbol) => ({symbol: symbol, price: trades[symbol].data[trades[symbol].data.length - 1]}))}/>
         </div>
-    </main>
+      </header>
+      <main className="container">
+        <h1 className="box p-3 mb-3 rounded text-shadow-secondary">Cryptocurrency trades</h1>
+          <div className="row g-3">
+            <section className="col col-lg-3">
+              <div className="position-sticky top-1 box rounded p-3">
+                <h2 className="pb-3 text-shadow-primary">Currencies list</h2>
+                  <Controls currencies={Object.keys(trades).map((symbol) => ({name: trades[symbol].name, symbol: symbol}))}/>
+              </div>
+            </section>
+            <section className="col col-lg-9">
+              <h2 className="visually-hidden">Charts</h2>
+              { Object.keys(trades).map((symbol) =>
+                <Chart key={symbol} name={trades[symbol].name} labels={trades[symbol].labels} data={trades[symbol].data}/>)
+              }
+            </section>
+          </div>
+      </main>
+      <footer className="mb-3 box" style={{height: '20px'}}>
+        <div className="container"></div>
+      </footer>
+    </>
   );
 }
