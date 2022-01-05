@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Chart from 'chart.js/auto/auto.esm';
 import { ChartConfiguration, ChartData } from 'chart.js/types/index.esm';
-import { TradesItem } from '../App';
+import { TradesItem } from '../../hooks/Context';
 
 const getChartData = (tradesItem: TradesItem): ChartData => ({
   labels: tradesItem.labels,
@@ -111,10 +111,10 @@ function ChartComponent({ name, labels, data }: TradesItem): JSX.Element {
   });
 
   return (
-    <section className="box rounded p-3 mb-3">
+    <li className="box rounded p-3 mb-3">
       <h2 className="pb-3 text-shadow-primary">{name} - USD</h2>
       <canvas className="chart__canvas" ref={canvasRef}></canvas>
-    </section>
+    </li>
   );
 }
 

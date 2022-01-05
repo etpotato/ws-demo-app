@@ -1,14 +1,16 @@
 import React from 'react';
+import { useTradesContext } from '../../hooks/Context';
 
-interface Props {
-  currencies: {
-    symbol: string,
-    price: number,
-  }[],
-}
+export default function TopList (): JSX.Element {
+  const {trades} = useTradesContext();
+  const currencies = Object.keys(trades).map((symbol) =>
+    ({
+      symbol: symbol,
+      price: trades[symbol].data[trades[symbol].data.length - 1]
+    })
+  );
 
-export default function TopList ({currencies}: Props): JSX.Element {
-  return(
+  return (
     <dl className="list-group list-group-horizontal px-3 overflow-auto hide-crollbar">
       {currencies.map((item) => (
         <div className="d-flex me-3" key={item.symbol}>
