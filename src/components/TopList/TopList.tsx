@@ -6,7 +6,7 @@ export default function TopList (): JSX.Element {
   const {trades} = useTradesContext();
 
   return (
-    <dl className="list-group list-group-horizontal px-3 overflow-auto hide-crollbar">
+    <dl className="list-group list-group-horizontal marquee-line">
       {Object.keys(trades.currencies).map((symbol) => (
         <TopItem
           symbol={symbol}

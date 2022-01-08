@@ -26,8 +26,16 @@ body {
   list-style: none;
 }
 
-.top-item {
-  min-width: 175px;
+.marquee {
+  animation: 40s linear infinite backwards marquee;
+}
+
+.marquee-line {
+  min-width: max-content;
+}
+
+.top-item-number {
+  min-width: 4em;
 }
 
 .text-shadow-secondary {
@@ -43,11 +51,12 @@ body {
   backdrop-filter: blur(5px);
 }
 
-.hide-crollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
 
-  &::-webkit-scrollbar {
-    display: none;
+  to {
+    transform: translateX(-50%);
   }
 }

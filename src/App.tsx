@@ -10,8 +10,8 @@ export default function App() {
   return (
     <TradesContextProvider>
       <div className="d-flex flex-column min-vh-100">
-        <header className="mb-3 py-1 box">
-          <div className="container">
+        <header className="mb-3 py-1 box overflow-hidden">
+          <div className="marquee marquee-line">
             <TopList/>
           </div>
         </header>

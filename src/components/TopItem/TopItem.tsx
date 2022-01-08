@@ -7,9 +7,9 @@ interface Props {
 
 function TopItem ({symbol, price}: Props) {
   return (
-    <div className="top-item d-flex me-3" key={symbol}>
-      <dt className="me-1 text-shadow-primary">{symbol}: </dt>
-      <dd className="mb-0 text-shadow-secondary">{price}</dd>
+    <div className="d-flex me-3" key={symbol}>
+      <dt className="me-1 text-shadow-primary fw-normal">{symbol}: </dt>
+      <dd className="top-item-number mb-0 text-shadow-secondary">{price}</dd>
     </div>
   );
 }
