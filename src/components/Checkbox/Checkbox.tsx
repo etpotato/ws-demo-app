@@ -1,23 +1,15 @@
-import React, {useState, useEffect} from 'react';
-import { useTradesContext } from '../../hooks/Context';
+import React from 'react';
+import { setCharts } from '../../hooks/Context';
 
 interface Props {
   symbol: string,
   name: string,
-  checked?: boolean,
+  checked: boolean,
+  setCharts: setCharts,
 }
 
-export default function Checkbox ({symbol, name, checked = false}: Props): JSX.Element {
-  const [isChecked, setIsChecked] = useState(false);
-  const {dispatch: {setCharts}} = useTradesContext();
-
-  const handleChange = () => setIsChecked((state) => !state);
-
-  useEffect(() => {
-    checked && setIsChecked(checked);
-  }, []);
-
-  useEffect(() => setCharts({symbol, active: isChecked}), [isChecked]);
+export default function Checkbox ({symbol, name, checked, setCharts}: Props): JSX.Element {
+  const handleChange = () => setCharts({symbol, active: !checked});
 
   return (
     <li className="list-group-item me-2 mb-2">
@@ -25,7 +17,7 @@ export default function Checkbox ({symbol, name, checked = false}: Props): JSX.E
         className="btn-check"
         id={`checkbox-${symbol}`}
         onChange={handleChange}
-        checked={isChecked}
+        checked={checked}
         type="checkbox"
       />
       <label className="btn btn-outline-primary" htmlFor={`checkbox-${symbol}`}>{name}</label>

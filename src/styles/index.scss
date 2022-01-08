@@ -12,12 +12,22 @@ body {
     content: "";
     position: absolute;
     inset: 0;
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-repeat: repeat-y;
+    background-size: 100% auto;
     background-position: center;
     background-image: url("../img/bg.svg");
     z-index: -1;
   }
+}
+
+.list-reset {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.top-item {
+  min-width: 175px;
 }
 
 .text-shadow-secondary {

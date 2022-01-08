@@ -2,19 +2,17 @@ import React, {useReducer, useContext, useEffect} from 'react';
 import {APP, CurrencyName} from '../config';
 import useWebsocket from './useWebsocket';
 
-interface Trades {
-  [c: string]: {
-    name: string,
-    active: boolean,
-    labels: string[],
-    data: number[],
-  },
-}
-
 export interface TradesItem {
   name: string,
   labels: string[],
   data: number[],
+}
+
+interface Trades {
+  active: Set<string>,
+  currencies: {
+    [c: string]: TradesItem,
+  },
 }
 
 export interface DataItem {
@@ -37,13 +35,15 @@ const ACTIONS = APP.ACTIONS;
 
 const getState = (prevState?: Trades) => {
   const currencies = Object.keys(CURRENCY_NAME);
-  const state: Trades = {};
+  const state: Trades = {
+    active: new Set(prevState ? prevState.active : APP.DEFAULT_CHARTS),
+    currencies: {},
+  };
   for (const currency of currencies) {
-    state[currency] = {
+    state.currencies[currency] = {
       name: CURRENCY_NAME[currency],
-      active: prevState ? prevState[currency].active : currency in APP.DEFAULT_CHARTS,
-      labels: prevState ? [...prevState[currency].labels] : [],
-      data: prevState ? [...prevState[currency].data] : [],
+      labels: prevState ? [...prevState.currencies[currency].labels] : [],
+      data: prevState ? [...prevState.currencies[currency].data] : [],
     };
   }
   return state;
@@ -53,10 +53,11 @@ const reducer: React.Reducer<Trades, Action> = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_TRADES: {
       const newData = action.payload;
+      if (!Array.isArray(newData)) return state;
       const newState = getState(state);
-      Array.isArray(newData) && newData.forEach((item: DataItem) => {
-        const prevLabels = newState[item.symbol].labels;
-        const prevData = newState[item.symbol].data;
+      newData.forEach((item: DataItem) => {
+        const prevLabels = newState.currencies[item.symbol].labels;
+        const prevData = newState.currencies[item.symbol].data;
         if (prevData[prevData.length - 1] === item.price) {
           prevLabels[prevLabels.length - 1] = new Date(item.timestamp).toLocaleTimeString('it-IT');
         } else {
@@ -64,11 +65,11 @@ const reducer: React.Reducer<Trades, Action> = (state, action) => {
           prevData.push(item.price);
         }
       });
-      for (const currency in newState) {
-        const length =  newState[currency].labels.length;
+      for (const currency in newState.currencies) {
+        const length = newState.currencies[currency].labels.length;
         if (length > APP.TRADES_LIMIT) {
-          newState[currency].labels.splice(0, length - APP.TRADES_LIMIT);
-          newState[currency].data.splice(0, length - APP.TRADES_LIMIT);
+          newState.currencies[currency].labels.splice(0, length - APP.TRADES_LIMIT);
+          newState.currencies[currency].data.splice(0, length - APP.TRADES_LIMIT);
         }
       }
       return newState;
@@ -76,7 +77,9 @@ const reducer: React.Reducer<Trades, Action> = (state, action) => {
     case ACTIONS.SET_CHARTS: {
       const newState = getState(state);
       if ('symbol' in action.payload) {
-        newState[action.payload.symbol].active = action.payload.active;
+        action.payload.active
+          ? newState.active.add(action.payload.symbol)
+          : newState.active.delete(action.payload.symbol);
       }
       return newState;
     }
@@ -87,6 +90,8 @@ const reducer: React.Reducer<Trades, Action> = (state, action) => {
 
 const defaultTrades = getState();
 const defaultDispatch: React.Dispatch<Action> = () => defaultTrades;
+
+export type setCharts = ({symbol, active}: ChartItem) => void;
 
 const setTrades = (dispatch: React.Dispatch<Action>) =>
   (data: DataItem[]) =>
@@ -103,8 +108,7 @@ const TradesContext = React.createContext({
   },
 });
 
-
-export function TradesContextProvider ({children}: {children: JSX.Element[]}): JSX.Element {
+export function TradesContextProvider ({children}: {children: JSX.Element}): JSX.Element {
   const [trades, dispatch] = useReducer(reducer, getState());
 
   const value = {

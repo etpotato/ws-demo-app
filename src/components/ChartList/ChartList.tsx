@@ -4,11 +4,18 @@ import Chart from '../Chart/Chart';
 
 export default function ChartList (): JSX.Element {
   const {trades} = useTradesContext();
+
   return (
-    <ul>
-      { Object.keys(trades).map((symbol) => {
-          if (trades[symbol].active) {
-            return <Chart key={symbol} name={trades[symbol].name} labels={trades[symbol].labels} data={trades[symbol].data}/>
+    <ul className="list-reset">
+      { Object.keys(trades.currencies).map((symbol) => {
+          if (trades.active.has(symbol)) {
+            const currency = trades.currencies[symbol];
+            return <Chart
+                      key={symbol}
+                      name={currency.name}
+                      labels={currency.labels}
+                      data={currency.data}
+                    />
           }
         })
       }
