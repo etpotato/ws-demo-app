@@ -26,6 +26,7 @@ const getConfig = (tradesItem: TradesItem): ChartConfiguration => {
           grid: {
             lineWidth: 0.5,
             borderColor: '#ffffff',
+            drawOnChartArea: false,
           },
           ticks: {
             autoSkipPadding: 16,
@@ -43,6 +44,7 @@ const getConfig = (tradesItem: TradesItem): ChartConfiguration => {
           grid: {
             lineWidth: 0.5,
             borderColor: '#ffffff',
+            drawOnChartArea: false,
           },
           ticks: {
             autoSkipPadding: 16,

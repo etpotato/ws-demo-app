@@ -20,7 +20,7 @@ export default function App() {
             <div className="row row-cols-1 g-3">
               <section className="col col-lg-3 mb-lg-3">
                 <div className="position-sticky top-1 box rounded p-3">
-                  <h2 className="pb-3 text-shadow-primary">Currencies list</h2>
+                  <h2 className="pb-3 text-shadow-primary">Active charts</h2>
                   <Controls/>
                 </div>
               </section>

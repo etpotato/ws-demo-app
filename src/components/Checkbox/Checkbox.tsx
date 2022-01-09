@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import { setCharts } from '../../hooks/Context';
 
 interface Props {
@@ -9,7 +9,10 @@ interface Props {
 }
 
 export default function Checkbox ({symbol, name, checked, setCharts}: Props): JSX.Element {
-  const handleChange = () => setCharts({symbol, active: !checked});
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    evt.target.blur();
+    setCharts({symbol, active: !checked})
+  };
 
   return (
     <li className="list-group-item me-2 mb-2">

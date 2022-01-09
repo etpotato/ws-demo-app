@@ -1,5 +1,5 @@
 export const APP = {
-  TRADES_LIMIT: 100,
+  TRADES_LIMIT: 80,
   SOCKET_URL: 'wss://ws.bitmex.com/realtime',
   CURRENCY_NAME: {
     AVAXUSD: 'Avalanche',
