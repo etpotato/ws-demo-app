@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import { useTradesContext } from '../../hooks/Context';
 
 import Checkbox from '../Checkbox/Checkbox';
@@ -6,10 +6,7 @@ import Checkbox from '../Checkbox/Checkbox';
 export default function Controls (): JSX.Element {
   const {trades, dispatch: {setCharts}} = useTradesContext();
 
-  // useEffect(() => console.log('controls'));
-
   return useMemo(() => {
-    console.log('controls')
     return (
       <form action="/">
         <h3 className="visually-hidden">Choose currencies to show</h3>

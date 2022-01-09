@@ -1,6 +1,7 @@
 export const APP = {
   TRADES_LIMIT: 80,
   SOCKET_URL: 'wss://ws.bitmex.com/realtime',
+  SOCKET_TIMEOUT: 5000,
   CURRENCY_NAME: {
     AVAXUSD: 'Avalanche',
     AXSUSD: 'Axie Infinity',

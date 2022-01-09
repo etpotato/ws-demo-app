@@ -1,4 +1,4 @@
-import React, {useReducer, useContext, useEffect} from 'react';
+import React, {useReducer, useContext} from 'react';
 import {APP, CurrencyName} from '../config';
 import useWebsocket from './useWebsocket';
 
@@ -101,6 +101,7 @@ const setCharts = (dispatch: React.Dispatch<Action>) =>
     dispatch({type: APP.ACTIONS.SET_CHARTS, payload: {symbol, active}});
 
 const TradesContext = React.createContext({
+  isWsAlive: false,
   trades: defaultTrades,
   dispatch: {
     setTrades: setTrades(defaultDispatch),
@@ -110,8 +111,10 @@ const TradesContext = React.createContext({
 
 export function TradesContextProvider ({children}: {children: JSX.Element}): JSX.Element {
   const [trades, dispatch] = useReducer(reducer, getState());
+  const isWsAlive = useWebsocket(setTrades(dispatch));
 
   const value = {
+    isWsAlive,
     trades,
     dispatch: {
       setTrades: setTrades(dispatch),
@@ -119,7 +122,6 @@ export function TradesContextProvider ({children}: {children: JSX.Element}): JSX
     }
   };
 
-  useWebsocket(setTrades(dispatch));
 
   return (
     <TradesContext.Provider value={value}>
