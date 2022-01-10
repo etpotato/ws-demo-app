@@ -4,6 +4,7 @@ const path = require('path');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const ESLintWebpackPlugin = require('eslint-webpack-plugin');
@@ -28,6 +29,14 @@ const plugins = [
 ];
 
 if (isServe) plugins.push(new ReactRefreshWebpackPlugin());
+if (isProd) plugins.push(new CopyPlugin({
+  patterns: [
+    {
+      from: './src/favicon/**/*',
+      to: '[base]'
+    },
+  ],
+}));
 
 module.exports = {
   mode: isProd ? 'production' : 'development',
