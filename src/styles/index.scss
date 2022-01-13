@@ -65,6 +65,10 @@ body {
   animation: 0.8s ease-in-out infinite alternate blink;
 }
 
+.animate-font {
+  animation: 15s ease-in-out infinite animate-font;
+}
+
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -86,5 +90,43 @@ body {
 
   100% {
     opacity: 100%;
+  }
+}
+
+@keyframes animate-font {
+  0% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 300;
+  }
+
+  12.5% {
+    font-variation-settings: "MONO" 1, "CASL" 0, "slnt" 0, "wght" 300;
+  }
+
+  25% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 300;
+  }
+
+  37.5% {
+    font-variation-settings: "MONO" 0, "CASL" 1, "slnt" 0, "wght" 300;
+  }
+
+  50% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 300;
+  }
+
+  62.5% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" -14, "wght" 300;
+  }
+
+  75% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 300;
+  }
+
+  87.5% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 1000;
+  }
+
+  100% {
+    font-variation-settings: "MONO" 0, "CASL" 0, "slnt" 0, "wght" 300;
   }
 }
