@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function Checkbox ({symbol, name, checked, setCharts}: Props): JSX.Element {
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (evt: ChangeEvent<HTMLInputElement>) => {
     evt.target.blur();
     setCharts({symbol, active: !checked})
   };

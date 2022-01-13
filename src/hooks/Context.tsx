@@ -1,5 +1,5 @@
-import React, {useReducer, useContext} from 'react';
-import {APP, CurrencyName} from '../config';
+import React, { useReducer, useContext } from 'react';
+import { APP, CurrencyName } from '../config';
 import useWebsocket from './useWebsocket';
 
 export interface TradesItem {
@@ -121,7 +121,6 @@ export function TradesContextProvider ({children}: {children: JSX.Element}): JSX
       setCharts: setCharts(dispatch),
     }
   };
-
 
   return (
     <TradesContext.Provider value={value}>

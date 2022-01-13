@@ -1,6 +1,5 @@
-import React, {useMemo} from 'react';
+import React, { useMemo } from 'react';
 import { useTradesContext } from '../../hooks/Context';
-
 import Checkbox from '../Checkbox/Checkbox';
 
 export default function Controls (): JSX.Element {
