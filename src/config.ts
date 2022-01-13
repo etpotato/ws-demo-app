@@ -18,7 +18,7 @@ export const APP = {
     XRPUSD: 'Ripple',
     SOLUSD: 'Solana',
   },
-  DEFAULT_CHARTS: ['XBTUSD', 'ETHUSD', 'XRPUSD'],
+  DEFAULT_CHARTS: ['XBTUSD','DOGEUSD', 'ETHUSD'],
   ACTIONS: {
     SET_TRADES: 'SET_TRADES',
     SET_CHARTS: 'SET_CHARTS',
