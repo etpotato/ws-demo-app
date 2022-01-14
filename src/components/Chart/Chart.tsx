@@ -1,7 +1,9 @@
 import React, { useRef, useEffect } from 'react';
-import Chart from 'chart.js/auto/auto.esm';
+import { Chart, LineElement, PointElement, LineController, LinearScale, CategoryScale, Filler, Tooltip } from 'chart.js';
 import { ChartConfiguration, ChartData } from 'chart.js/types/index.esm';
 import { TradesItem } from '../../hooks/Context';
+
+Chart.register(LineElement, PointElement, LineController, LinearScale, CategoryScale, Filler, Tooltip);
 
 const getChartData = (tradesItem: TradesItem): ChartData => ({
   labels: tradesItem.labels,
