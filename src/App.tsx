@@ -34,7 +34,7 @@ export default function App() {
         </main>
         <footer className="box pt-2 pb-5 pb-sm-2">
           <div className="container text-center">
-            <a className="text-shadow-secondary px-3 animate-font" href="https://pavelmareev.dev/" target="_blank" rel="noreferrer">pavelmareev.dev</a>
+            <a className="text-shadow-secondary px-3 animate-font" href="https://etpotato.com/" target="_blank" rel="noreferrer">etpotato.com</a>
           </div>
         </footer>
       </div>
